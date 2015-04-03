@@ -1,0 +1,28 @@
+<resources>
+
+    <string name="app_name">Nolio</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="deployment_tab_approvals">Approvals</string>
+    <string name="deployment_tab_pending">Pending</string>
+    <string name="deployment_tab_running">Running</string>
+    <string name="deployment_tab_recent">Recent</string>
+    <string name="create_deployment">Create Deployment</string>
+    <string name="refresh_deployment">Refresh Deployment</string>
+    
+    <string name="send">Send</string>
+    <string name="clear">Clear</string>
+    <string name="scan">Scan</string>
+
+    <string-array name="Pages">
+        <item>Deployments</item>
+        <item>Reports</item>
+        <item>Dashboard</item>
+    </string-array>
+    
+    <string-array name="chartTypes">
+        <item>Bar Chart</item>
+        <item>Pie Chart</item>
+    </string-array>
+
+</resources>
