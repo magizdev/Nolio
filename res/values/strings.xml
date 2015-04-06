@@ -15,8 +15,9 @@
     <string name="scan">Scan</string>
 
     <string-array name="Pages">
+        <item>Header</item>
         <item>Deployments</item>
-        <item>Reports</item>
+        <item>Job Bookmarks</item>
         <item>Dashboard</item>
     </string-array>
     

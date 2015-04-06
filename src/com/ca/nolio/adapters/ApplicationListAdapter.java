@@ -21,4 +21,8 @@ public class ApplicationListAdapter extends ArrayAdapter<Application> {
 		return applications.get(position).getId();
 	}
 
+	public String getApplicaitonName(int position) {
+		return applications.get(position).getName();
+	}
+
 }

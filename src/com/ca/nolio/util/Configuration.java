@@ -9,6 +9,8 @@ public class Configuration {
 	static final String USER_NAME = "USER_NAME";
 	static final String AUTHENTICATE = "AUTHENTICATE";
 	static final String SERVER = "SERVER";
+	static final String APPLICATION = "APPLICATION";
+	static final String APPLICATION_ID = "APPLICATION_ID";
 
 	SharedPreferences preferences;
 
@@ -40,9 +42,28 @@ public class Configuration {
 		saveStringValue(SERVER, server);
 	}
 
+	public String getApplicationName() {
+		return preferences.getString(APPLICATION, "");
+	}
+
+	public Long getApplicationId() {
+		return preferences.getLong(APPLICATION_ID, 0);
+	}
+
+	public void setApplication(String name, Long id) {
+		saveStringValue(APPLICATION, name);
+		saveLongValue(APPLICATION_ID, id);
+	}
+
 	private void saveStringValue(String key, String value) {
 		Editor editor = preferences.edit();
 		editor.putString(key, value);
+		editor.commit();
+	}
+
+	private void saveLongValue(String key, Long value) {
+		Editor editor = preferences.edit();
+		editor.putLong(APPLICATION_ID, value);
 		editor.commit();
 	}
 }

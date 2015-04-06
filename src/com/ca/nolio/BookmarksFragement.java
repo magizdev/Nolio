@@ -63,7 +63,7 @@ public class BookmarksFragement extends MenuFragment {
 				sacnResult = data.getStringExtra("SCAN_RESULT");
 				// the
 				// result
-				if (sacnResult == "abc") {
+				if (sacnResult.equals("abc")) {
 					scan_mode = SCAN_MODE_SESSION;
 				} else {
 					scan_mode = SCAN_MODE_ADD_BOOKMARK;

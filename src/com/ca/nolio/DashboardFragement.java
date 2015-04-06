@@ -7,11 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.ca.nolio.chart.BarChart;
 import com.ca.nolio.chart.PieChart;
@@ -25,8 +22,8 @@ public class DashboardFragement extends MenuFragment implements
 	static final String REPORT_SERVICE_STRING = "http://%s:8080/datamanagement/a/reports/releasesReports?fromIndex=0&toIndex=100&reportType=OFFLINE&advanced=RELEASE_DATE~-1_-1_604800000";
 	static final String REPORT_SERVICE_TAG = "REPORT_SERVICE_TAG";
 	private Configuration configuration;
-	private Spinner chartTypeSpinner;
-	private LinearLayout chartArea;
+	private LinearLayout pieChartArea;
+	private LinearLayout barChartArea;
 	private ReportDataList reportsData;
 
 	@Override
@@ -50,35 +47,22 @@ public class DashboardFragement extends MenuFragment implements
 			Bundle savedInstanceState) {
 		View rootView = super.onCreateView(inflater, container,
 				savedInstanceState);
-		chartTypeSpinner = (Spinner) rootView.findViewById(R.id.chartTypes);
+		
 		ArrayAdapter<String> chartTypeAdapter = new ArrayAdapter<String>(
 				getActivity(), android.R.layout.simple_list_item_1,
 				android.R.id.text1);
 		chartTypeAdapter.addAll(getResources().getStringArray(
 				R.array.chartTypes));
-		chartTypeSpinner.setAdapter(chartTypeAdapter);
-		chartTypeSpinner
-				.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						drawReports(arg2);
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-
-					}
-				});
 		configuration = new Configuration(this.getActivity());
-		chartArea = (LinearLayout) rootView.findViewById(R.id.chartArea);
+		pieChartArea = (LinearLayout) rootView.findViewById(R.id.pieChartArea);
+		barChartArea = (LinearLayout) rootView.findViewById(R.id.barChartArea);
 		return rootView;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		refreshData();
 	}
 
 	@Override
@@ -91,7 +75,7 @@ public class DashboardFragement extends MenuFragment implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			drawReports(chartTypeSpinner.getSelectedItemPosition());
+			drawReports();
 		}
 	}
 
@@ -103,21 +87,19 @@ public class DashboardFragement extends MenuFragment implements
 		nolioService.execute(serviceUrl);
 	}
 
-	private void drawReports(int reportType) {
+	private void drawReports() {
 		if (reportsData == null) {
 			refreshData();
 			return;
 		}
-		if (reportType == 0) {
-			BarChart barChart = new BarChart(getActivity());
-			chartArea.removeAllViews();
-			chartArea.addView(barChart.generateChartView(reportsData));
-		} else {
-			PieChart pieChart = new PieChart(this.getActivity());
-			chartArea.removeAllViews();
-			chartArea.addView(pieChart.generateChartView(reportsData));
-		}
-		chartArea.requestLayout();
+
+		BarChart barChart = new BarChart(getActivity());
+		barChartArea.addView(barChart.generateChartView(reportsData));
+		PieChart pieChart = new PieChart(this.getActivity());
+		pieChartArea.addView(pieChart.generateChartView(reportsData));
+
+		pieChartArea.requestLayout();
+		barChartArea.requestLayout();
 	}
 
 }

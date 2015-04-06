@@ -1,6 +1,9 @@
 package com.ca.nolio;
 
+import org.json.JSONException;
+
 import com.ca.nolio.interfaces.IJumpable;
+import com.ca.nolio.model.ApplicationList;
 
 import android.app.ActionBar;
 import android.app.FragmentManager;
@@ -26,7 +29,7 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 	private MenuFragment dashboardFragment;
 	private MenuFragment reportFragment;
 	private MenuFragment deploymentListFragment;
-	
+
 	private MenuFragment currentFragment;
 	private int position;
 	private DrawerAdapter adapter;
@@ -35,6 +38,13 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		ApplicationList applications = new ApplicationList();
+		try {
+			applications.LoadFromJson(this.getIntent().getStringExtra("Applications"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		mTitle = mDrawerTitle = getTitle();
 		mPageTitles = getResources().getStringArray(R.array.Pages);
@@ -48,7 +58,7 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 
-		adapter = new DrawerAdapter(this);
+		adapter = new DrawerAdapter(this, applications);
 		mDrawerList.setAdapter(adapter);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -82,14 +92,13 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (savedInstanceState == null) {
-			selectItem(0);
+			selectItem(1);
 		}
-		
 
 	}
-	
+
 	@Override
-	public void onPause(){
+	public void onPause() {
 		super.onPause();
 	}
 
@@ -144,13 +153,13 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 			dashboardFragment = new DashboardFragement();
 		}
 		switch (position) {
-		case 0:
+		case 1:
 			currentFragment = deploymentListFragment;
 			break;
-		case 1:
+		case 2:
 			currentFragment = reportFragment;
 			break;
-		case 2:
+		case 3:
 			currentFragment = dashboardFragment;
 			break;
 		default:
@@ -190,11 +199,12 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-	
+
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
-		int target = getIntent().getIntExtra("com.magizdev.dayplan.Target", position);
+		int target = getIntent().getIntExtra("com.magizdev.dayplan.Target",
+				position);
 		jumpTo(target);
 	}
 

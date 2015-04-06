@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_dialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF000000" >
+    android:background="#FF000000"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Do you want to add below job to your bookmark: "
+        android:textColor="@android:color/white"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/jobName"
@@ -13,12 +22,32 @@
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btn_follow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_bg"
-        android:padding="10dp"
-        android:text="Follow!" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:background="#FF000000"
+        android:orientation="horizontal" >
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_follow"
+            android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:padding="10dp"
+            android:text="OK" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:padding="10dp"
+            android:text="Cancel" />
+    </LinearLayout>
+
+</LinearLayout>

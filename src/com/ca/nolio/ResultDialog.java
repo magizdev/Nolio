@@ -23,6 +23,8 @@ public class ResultDialog extends Dialog implements OnClickListener {
 		this.setContentView(R.layout.dialog_view);
 		TextView jobName = (TextView) findViewById(R.id.jobName);
 		Button follow = (Button) findViewById(R.id.btn_follow);
+		Button cancel = (Button) findViewById(R.id.btn_cancel);
+		cancel.setOnClickListener(this);
 
 		JSONObject job;
 		String jobNameString = "default";
@@ -33,7 +35,7 @@ public class ResultDialog extends Dialog implements OnClickListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		jobName.setText(jobNameString);
 		bookmark = new Bookmark();
 		bookmark.name = jobNameString;
@@ -45,7 +47,9 @@ public class ResultDialog extends Dialog implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		bookmark.save();
+		if (v.getId() == R.id.btn_follow) {
+			bookmark.save();
+		}
 		this.dismiss();
 	}
 

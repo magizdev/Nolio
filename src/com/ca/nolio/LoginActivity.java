@@ -14,18 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ca.nolio.interfaces.INolioServiceCallback;
+import com.ca.nolio.model.ApplicationList;
 import com.ca.nolio.service.NolioService;
 import com.ca.nolio.util.Configuration;
 
 public class LoginActivity extends Activity implements INolioServiceCallback {
-	private static final String SERVICE_BASE_URL = "http://%s:8080/datamanagement/a/releases/%d";
+	private static final String SERVICE_BASE_URL = "http://%s:8080/datamanagement/a/shallow_applications";
 	private EditText server;
 	private EditText username;
 	private EditText password;
 	private Button login;
 	private Configuration configuration;
 	private TextView message;
-
+	private String applicationListResponse;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +59,22 @@ public class LoginActivity extends Activity implements INolioServiceCallback {
 						configuration.getServer(), 0));
 			}
 		});
+		
+		if(configuration.getServer().length() > 0 ){
+			server.setText(configuration.getServer());
+		}
+		
+		if(configuration.getUsername().length() > 0 ){
+			username.setText(configuration.getUsername());;
+		}
+		
+//		if(configuration.getServer().length() > 0 ){
+//			NolioService nolioServiceCall = new NolioService(
+//					NolioService.GET, LoginActivity.this, "Logging in...",
+//					"", LoginActivity.this);
+//			nolioServiceCall.execute(String.format(SERVICE_BASE_URL,
+//					configuration.getServer(), 0));
+//		}
 	}
 
 	@Override
@@ -64,6 +82,7 @@ public class LoginActivity extends Activity implements INolioServiceCallback {
 		JSONObject returnMsg;
 		try {
 			returnMsg = new JSONObject(response);
+			applicationListResponse = response;
 			onSuccess();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -74,6 +93,7 @@ public class LoginActivity extends Activity implements INolioServiceCallback {
 	private void onSuccess() {
 		Intent mainPage = new Intent();
 		mainPage.setClass(this, MainActivity.class);
+		mainPage.putExtra("Applications", applicationListResponse);
 		startActivity(mainPage);
 	}
 

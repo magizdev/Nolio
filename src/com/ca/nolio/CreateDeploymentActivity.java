@@ -32,18 +32,15 @@ import com.ca.nolio.util.Configuration;
 
 public class CreateDeploymentActivity extends Activity implements
 		INolioServiceCallback, OnClickListener {
-	private static final String APPLICATION_SERVICE_URL = "http://%s:8080/datamanagement/a/shallow_applications";
+
 	private static final String PROJECTS_SERVICE_URL = "http://%s:8080/datamanagement/a/versions/%d";
 	private static final String TEMPLATE_SERVICE_URL = "http://%s:8080/datamanagement/a/releasecandidates/versions/%d/pages?pageSize=50&pageStart=0";
 	private static final String ENVIONMENT_SERVICE_URL = "http://%s:8080/datamanagement/a/shallow_applications/%d/environments";
 	private static final String CREATE_DEPLOYMENT_SERVICE_URL = "http://%s:8080/datamanagement/a/deployments";
-	private static final String TAG_LOAD_APPLICATIONS = "TAG_LOAD_APPLICATIONS";
 	private static final String TAG_LOAD_PROJECTS = "TAG_LOAD_PROJECTS";
 	private static final String TAG_LOAD_TEMPLATES = "TAG_LOAD_TEMPLATES";
 	private static final String TAG_LOAD_ENVIRONMENTS = "TAG_LOAD_ENVIRONMENTS";
 	private static final String TAG_CREATE_DEPLOYMENT = "TAG_CREATE_DEPLOYMENT";
-
-	private Spinner applications;
 
 	private Spinner projects;
 
@@ -68,22 +65,6 @@ public class CreateDeploymentActivity extends Activity implements
 		setContentView(R.layout.activity_create_deployment);
 		configuration = new Configuration(this);
 		name = (EditText) findViewById(R.id.name);
-		applications = (Spinner) findViewById(R.id.applications);
-		applications.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				loadEnvironments(arg3);
-				loadProjects(arg3);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		environments = (Spinner) findViewById(R.id.environments);
 		projects = (Spinner) findViewById(R.id.projects);
 		projects.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -108,17 +89,8 @@ public class CreateDeploymentActivity extends Activity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		loadApplications();
-	}
-
-	private void loadApplications() {
-		String getRelease = String.format(APPLICATION_SERVICE_URL,
-				configuration.getServer());
-
-		NolioService serviceCall = new NolioService(NolioService.GET, this,
-				"Loading projects...", TAG_LOAD_APPLICATIONS, this);
-
-		serviceCall.execute(new String[] { getRelease });
+		loadProjects(configuration.getApplicationId());
+		loadEnvironments(configuration.getApplicationId());
 	}
 
 	private void loadProjects(long applicationId) {
@@ -173,19 +145,7 @@ public class CreateDeploymentActivity extends Activity implements
 
 	@Override
 	public void onCallback(String tag, String response) {
-		if (tag == TAG_LOAD_APPLICATIONS) {
-			ApplicationList applications = new ApplicationList();
-			try {
-				applications.LoadFromJson(response);
-			} catch (Exception e) {
-				Log.e("", e.getLocalizedMessage(), e);
-			}
-			ApplicationListAdapter applicationAdapter = new ApplicationListAdapter(
-					this, android.R.layout.simple_list_item_1,
-					android.R.id.text1, applications);
-			this.applications.setAdapter(applicationAdapter);
-
-		} else if (tag == TAG_LOAD_PROJECTS) {
+		if (tag == TAG_LOAD_PROJECTS) {
 			NameIdList projects = new NameIdList();
 			try {
 				projects.LoadFromJson(response);
@@ -233,9 +193,8 @@ public class CreateDeploymentActivity extends Activity implements
 					CREATE_DEPLOYMENT_SERVICE_URL, configuration.getServer());
 			NolioService serviceCall = new NolioService(NolioService.POST,
 					this, "Starting...", TAG_CREATE_DEPLOYMENT, this);
-//			serviceCall.addNameValuePair("template", value);
-			serviceCall
-					.setPayload(generatePayload());
+			// serviceCall.addNameValuePair("template", value);
+			serviceCall.setPayload(generatePayload());
 			serviceCall.execute(new String[] { executionRelease });
 		}
 		// } else {

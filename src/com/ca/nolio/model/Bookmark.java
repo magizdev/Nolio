@@ -11,5 +11,10 @@ public class Bookmark extends Model {
 	
 	@Column(name="json")
 	public String postJson;
+	
+	@Override
+	public String toString(){
+		return name;
+	}
 
 }
