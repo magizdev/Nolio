@@ -12,20 +12,6 @@
         android:paddingLeft="0dp" >
 
         <TextView
-            android:id="@+id/deploymentName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:paddingLeft="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Name"
-            android:textColor="#50A7E7"
-            android:textSize="25dp" />
-
-        <TextView
             android:id="@+id/progressTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,6 +20,22 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="Progress"
+            android:textColor="#50A7E7"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/deploymentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@id/progressTxt"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:text="Name"
             android:textColor="#50A7E7"
             android:textSize="25dp" />
 

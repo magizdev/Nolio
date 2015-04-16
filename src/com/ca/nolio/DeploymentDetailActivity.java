@@ -58,7 +58,7 @@ public class DeploymentDetailActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_deployment_detail);
-		configuration = new Configuration(this);
+		configuration = Configuration.getConfiguration(this);
 		name = (TextView) findViewById(R.id.releaseName);
 		application = (TextView) findViewById(R.id.applicationName);
 		environment = (TextView) findViewById(R.id.environment);

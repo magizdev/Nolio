@@ -59,7 +59,7 @@ public class ReportFragement extends MenuFragment implements
 		View rootView = super.onCreateView(inflater, container,
 				savedInstanceState);
 		reports = (ListView) rootView.findViewById(android.R.id.list);
-		configuration = new Configuration(this.getActivity());
+		configuration = Configuration.getConfiguration(this.getActivity());
 		return rootView;
 	}
 

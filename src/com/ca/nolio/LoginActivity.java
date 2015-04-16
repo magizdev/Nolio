@@ -37,7 +37,7 @@ public class LoginActivity extends Activity implements INolioServiceCallback {
 		password = (EditText) findViewById(R.id.password);
 		login = (Button) findViewById(R.id.login);
 		message = (TextView) findViewById(R.id.messageLabel);
-		configuration = new Configuration(this);
+		configuration = Configuration.getConfiguration(this);
 
 		login.setOnClickListener(new OnClickListener() {
 

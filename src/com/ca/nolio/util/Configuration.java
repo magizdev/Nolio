@@ -1,5 +1,10 @@
 package com.ca.nolio.util;
 
+import java.util.HashMap;
+
+import com.ca.nolio.ApplicationSelectListener;
+import com.ca.nolio.OnApplicationChangedListener;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,9 +18,23 @@ public class Configuration {
 	static final String APPLICATION_ID = "APPLICATION_ID";
 
 	SharedPreferences preferences;
+	private OnApplicationChangedListener applicationChangedListener;
+	private static HashMap<Context, Configuration> pool;
+	
+	public static Configuration getConfiguration(Context context){
+		if(!pool.containsKey(context)){
+			pool.put(context, new Configuration(context));
+		}
+		
+		return pool.get(context);
+	}
 
-	public Configuration(Context context) {
+	private Configuration(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	}
+	
+	public void setApplicationSelectListener(OnApplicationChangedListener applicationChangedListener){
+		this.applicationChangedListener = applicationChangedListener;
 	}
 
 	public String getUsername() {
@@ -53,6 +72,7 @@ public class Configuration {
 	public void setApplication(String name, Long id) {
 		saveStringValue(APPLICATION, name);
 		saveLongValue(APPLICATION_ID, id);
+		applicationChangedListener.ChangeTo(id);
 	}
 
 	private void saveStringValue(String key, String value) {

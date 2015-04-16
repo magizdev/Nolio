@@ -53,7 +53,7 @@ public class DashboardFragement extends MenuFragment implements
 				android.R.id.text1);
 		chartTypeAdapter.addAll(getResources().getStringArray(
 				R.array.chartTypes));
-		configuration = new Configuration(this.getActivity());
+		configuration = Configuration.getConfiguration(this.getActivity());
 		pieChartArea = (LinearLayout) rootView.findViewById(R.id.pieChartArea);
 		barChartArea = (LinearLayout) rootView.findViewById(R.id.barChartArea);
 		return rootView;

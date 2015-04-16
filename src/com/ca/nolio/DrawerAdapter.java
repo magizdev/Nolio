@@ -30,7 +30,7 @@ public class DrawerAdapter extends BaseAdapter {
 		labels = Arrays.asList(context.getResources().getStringArray(
 				R.array.Pages));
 		selectedIndex = 0;
-		configuration = new Configuration(context);
+		configuration = Configuration.getConfiguration(context);
 		this.applicationList = applicationList;
 
 	}

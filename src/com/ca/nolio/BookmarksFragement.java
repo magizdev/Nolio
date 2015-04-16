@@ -82,7 +82,7 @@ public class BookmarksFragement extends MenuFragment {
 			Bundle savedInstanceState) {
 		View rootView = super.onCreateView(inflater, container,
 				savedInstanceState);
-		configuration = new Configuration(this.getActivity());
+		configuration = Configuration.getConfiguration(this.getActivity());
 		bookmarkList = (ListView) rootView.findViewById(R.id.bookmarkList);
 		bookmarkList.setOnItemClickListener(new OnItemClickListener() {
 

@@ -57,7 +57,7 @@ public class DeploymentListFragement extends MenuFragment implements
 			Bundle savedInstanceState) {
 		View rootView = super.onCreateView(inflater, container,
 				savedInstanceState);
-		configuration = new Configuration(this.getActivity());
+		configuration = Configuration.getConfiguration(this.getActivity());
 		depolymentList = (ListView) rootView.findViewById(R.id.deploymentList);
 		return rootView;
 	}
@@ -104,7 +104,7 @@ public class DeploymentListFragement extends MenuFragment implements
 
 	}
 
-	private void loadDeployments() {
+	public void loadDeployments() {
 		NolioService nolioService = new NolioService(NolioService.GET,
 				this.getActivity(), "Loading deployments...",
 				DEPLOYMENT_SERVICE_TAG, this);

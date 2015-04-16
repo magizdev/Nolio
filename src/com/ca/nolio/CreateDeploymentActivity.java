@@ -63,7 +63,7 @@ public class CreateDeploymentActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_deployment);
-		configuration = new Configuration(this);
+		configuration = Configuration.getConfiguration(this);
 		name = (EditText) findViewById(R.id.name);
 		environments = (Spinner) findViewById(R.id.environments);
 		projects = (Spinner) findViewById(R.id.projects);

@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class MainActivity extends FragmentActivity implements IJumpable {
+public class MainActivity extends FragmentActivity implements IJumpable, OnApplicationChangedListener {
 	private String[] mPageTitles;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -38,6 +38,7 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		com.ca.nolio.util.Configuration.getConfiguration(this).setApplicationSelectListener(this);
 		ApplicationList applications = new ApplicationList();
 		try {
 			applications.LoadFromJson(this.getIntent().getStringExtra("Applications"));
@@ -192,6 +193,11 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
+	
+	@Override
+	public void onBackPressed(){
+		mDrawerLayout.callOnClick();
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -212,6 +218,12 @@ public class MainActivity extends FragmentActivity implements IJumpable {
 	public void jumpTo(int target) {
 		selectItem(target);
 		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void ChangeTo(long newId) {
+		((DeploymentListFragement)deploymentListFragment).loadDeployments();
+		
 	}
 
 }

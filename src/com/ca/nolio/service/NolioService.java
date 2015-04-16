@@ -59,7 +59,7 @@ public class NolioService extends AsyncTask<String, Integer, String> {
 
 		this.taskType = taskType;
 		this.mContext = mContext;
-		configuration = new Configuration(mContext);
+		configuration = Configuration.getConfiguration(mContext);
 		this.processMessage = processMessage;
 		this.tag = tag;
 		this.callback = callback;
