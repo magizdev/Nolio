@@ -19,7 +19,7 @@ public class Configuration {
 
 	SharedPreferences preferences;
 	private OnApplicationChangedListener applicationChangedListener;
-	private static HashMap<Context, Configuration> pool;
+	private static HashMap<Context, Configuration> pool = new HashMap<Context, Configuration>();
 	
 	public static Configuration getConfiguration(Context context){
 		if(!pool.containsKey(context)){

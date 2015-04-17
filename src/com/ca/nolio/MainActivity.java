@@ -2,6 +2,8 @@ package com.ca.nolio;
 
 import org.json.JSONException;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.ca.nolio.interfaces.IJumpable;
 import com.ca.nolio.model.ApplicationList;
 
@@ -66,6 +68,7 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
+		PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, "55LS9wRp6N3YS37MHTOYSBSg");
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon

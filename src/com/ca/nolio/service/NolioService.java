@@ -89,7 +89,9 @@ public class NolioService extends AsyncTask<String, Integer, String> {
 	protected void onPreExecute() {
 
 		// hideKeyboard();
-		showProgressDialog();
+		if(processMessage != null) {
+			showProgressDialog();
+		}
 
 	}
 
@@ -124,7 +126,9 @@ public class NolioService extends AsyncTask<String, Integer, String> {
 	protected void onPostExecute(String response) {
 
 		callback.onCallback(tag, response);
-		pDlg.dismiss();
+		if(processMessage != null) {
+			pDlg.dismiss();
+		}
 
 	}
 
