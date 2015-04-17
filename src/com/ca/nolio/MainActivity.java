@@ -15,13 +15,15 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class MainActivity extends FragmentActivity implements IJumpable, OnApplicationChangedListener {
+public class MainActivity extends FragmentActivity implements IJumpable,
+		OnApplicationChangedListener {
 	private String[] mPageTitles;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -35,20 +37,23 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 	private MenuFragment currentFragment;
 	private int position;
 	private DrawerAdapter adapter;
+	private com.ca.nolio.util.Configuration config;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		com.ca.nolio.util.Configuration.getConfiguration(this).setApplicationSelectListener(this);
+		com.ca.nolio.util.Configuration.getConfiguration(this)
+				.setApplicationSelectListener(this);
 		ApplicationList applications = new ApplicationList();
 		try {
-			applications.LoadFromJson(this.getIntent().getStringExtra("Applications"));
+			applications.LoadFromJson(this.getIntent().getStringExtra(
+					"Applications"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		config = com.ca.nolio.util.Configuration.getConfiguration(this);
 		mTitle = mDrawerTitle = getTitle();
 		mPageTitles = getResources().getStringArray(R.array.Pages);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -68,7 +73,8 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-		PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, "55LS9wRp6N3YS37MHTOYSBSg");
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY, "55LS9wRp6N3YS37MHTOYSBSg");
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
@@ -182,7 +188,8 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
-		getActionBar().setTitle(mTitle);
+		getActionBar().setTitle(
+				mTitle + "(" + config.getApplicationName() + ")");
 	}
 
 	/**
@@ -196,10 +203,10 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
-	
+
 	@Override
-	public void onBackPressed(){
-		mDrawerLayout.callOnClick();
+	public void onBackPressed() {
+		mDrawerLayout.openDrawer(Gravity.VERTICAL_GRAVITY_MASK);
 	}
 
 	@Override
@@ -225,8 +232,8 @@ public class MainActivity extends FragmentActivity implements IJumpable, OnAppli
 
 	@Override
 	public void ChangeTo(long newId) {
-		((DeploymentListFragement)deploymentListFragment).loadDeployments();
-		
+		((DeploymentListFragement) deploymentListFragment).loadDeployments();
+
 	}
 
 }
