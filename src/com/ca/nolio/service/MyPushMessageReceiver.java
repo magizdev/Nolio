@@ -1,7 +1,5 @@
 package com.ca.nolio.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -13,8 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
-import com.ca.nolio.DeploymentListFragement;
-import com.ca.nolio.LoginActivity;
+import com.ca.nolio.DeploymentDetailActivity;
 import com.ca.nolio.MainActivity;
 import com.ca.nolio.interfaces.INolioServiceCallback;
 import com.ca.nolio.util.Configuration;
@@ -62,15 +59,25 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver implements
         String messageString = "�?传消�?� message=\"" + message
                 + "\" customContentString=" + customContentString;
         Log.d(TAG, messageString);
-
-        // 自定义内容获�?�方�?，mykey和myvalue对应�?传消�?�推�?时自定义内容中设置的键和值
+        
+        Intent startDeploymentDetailIntent= new Intent();
+        startDeploymentDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startDeploymentDetailIntent.setClass(
+				context.getApplicationContext(),
+				MainActivity.class);
+        
         if (!TextUtils.isEmpty(customContentString)) {
             JSONObject customJson = null;
             try {
                 customJson = new JSONObject(customContentString);
-                String myvalue = null;
-                if (!customJson.isNull("mykey")) {
-                    myvalue = customJson.getString("mykey");
+                if (!customJson.isNull("deploymentId")) {
+                	
+    				startDeploymentDetailIntent.setClass(
+    						context.getApplicationContext(),
+    						DeploymentDetailActivity.class);
+    				long deploymentId = Long.parseLong(customJson.getString("deploymentId"));
+    				startDeploymentDetailIntent.putExtra("id", deploymentId);
+    				
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -78,8 +85,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver implements
             }
         }
 
-        // Demo更新界�?�展示代�?，应用请在这里加入自己的处�?�逻辑
-        updateContent(context, messageString);
+        context.startActivity(startDeploymentDetailIntent);
     }
 
     /**
@@ -101,14 +107,22 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver implements
                 + description + "\" customContent=" + customContentString;
         Log.d(TAG, notifyString);
 
-        // 自定义内容获�?�方�?，mykey和myvalue对应通知推�?时自定义内容中设置的键和值
+        Intent startDeploymentDetailIntent= new Intent();
+        startDeploymentDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startDeploymentDetailIntent.setClass(
+				context.getApplicationContext(),
+				MainActivity.class);
         if (!TextUtils.isEmpty(customContentString)) {
             JSONObject customJson = null;
             try {
                 customJson = new JSONObject(customContentString);
-                String myvalue = null;
-                if (!customJson.isNull("mykey")) {
-                    myvalue = customJson.getString("mykey");
+                if (!customJson.isNull("deploymentId")) {
+    				startDeploymentDetailIntent.setClass(
+    						context.getApplicationContext(),
+    						DeploymentDetailActivity.class);
+    				long deploymentId = Long.parseLong(customJson.getString("deploymentId"));
+    				startDeploymentDetailIntent.putExtra("id", deploymentId);
+    				
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -116,8 +130,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver implements
             }
         }
 
-        // Demo更新界�?�展示代�?，应用请在这里加入自己的处�?�逻辑
-        updateContent(context, notifyString);
+        context.startActivity(startDeploymentDetailIntent);
     }
 
     /**
@@ -226,17 +239,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver implements
         if (!logText.equals("")) {
             logText += "\n";
         }
-
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("HH-mm-ss");
-        logText += sDateFormat.format(new Date()) + ": ";
-        logText += content;
-
-        Utils.logStringCache = logText;
-
-        Intent intent = new Intent();
-        intent.setClass(context.getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.getApplicationContext().startActivity(intent);
     }
 
 	@Override

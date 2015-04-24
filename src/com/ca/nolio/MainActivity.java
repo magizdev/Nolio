@@ -206,7 +206,6 @@ public class MainActivity extends FragmentActivity implements IJumpable,
 
 	@Override
 	public void onBackPressed() {
-		mDrawerLayout.openDrawer(Gravity.VERTICAL_GRAVITY_MASK);
 	}
 
 	@Override

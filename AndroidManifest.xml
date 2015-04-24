@@ -31,7 +31,7 @@
     <uses-permission android:name="com.ca.nolio.C2D_MESSAGE" />
 
     <application
-        android:name="com.baidu.frontia.FrontiaApplication"
+        android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -59,25 +59,14 @@
         <activity
             android:name="com.ca.nolio.DeploymentDetailActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.ca.nolio.MainActivity" >
+            android:parentActivityName="com.ca.nolio.MainActivity"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name="com.ca.nolio.CreateDeploymentActivity"
             android:label="@string/app_name"
             android:parentActivityName="com.ca.nolio.MainActivity" >
         </activity>
-
-        <receiver
-            android:name=".GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="com.ca.nolio" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".GcmIntentService" />
 
         <receiver android:name="com.ca.nolio.service.MyPushMessageReceiver" >
             <intent-filter>
